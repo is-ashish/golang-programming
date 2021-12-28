@@ -33,19 +33,17 @@ type LinkedList struct {
 }
 
 func main() {
-	// arr := []int{8}
-	str1 := "ashish"
-	// targetString := "is"
-	println(lengthOfLongestSubstring(str1))
 
 	// ================== Linked List ==========================
-	// list1 := LinkedList{}
-	// list1.add(1)
-	// list1.add(2)
-	// list1.add(3)
-	// list1.add(4)
+	list1 := LinkedList{} // 1,2,6,3,4,5,6
+	list1.add(7)
+	list1.add(7)
+	list1.add(7)
+	list1.add(7)
 	// list1.add(5)
-	// list1.display(list1.head)
+	// list1.add(6)
+	list1.display(list1.head)
+	list1.display(list1.removeElements(list1.head, 7))
 	// list1.deleteNode(list1.head)
 	// r := list1.reverseLinkList(list1.head)
 	// // print(r.Val)
@@ -143,7 +141,7 @@ func (l *LinkedList) display(head *Node) {
 		fmt.Printf("%v->", n.Val)
 		n = n.next
 	}
-	print("NULL")
+	println("NULL")
 }
 func (l *LinkedList) add(Val int) {
 	node := &Node{Val: Val, next: nil}
@@ -196,6 +194,19 @@ func (l *LinkedList) reverseLinkList(head *Node) *Node {
 		}
 	}
 	head = prev
+	return head
+}
+
+//https://leetcode.com/problems/remove-linked-list-elements/
+func (l *LinkedList) removeElements(head *Node, val int) *Node {
+	cur := head
+
+	for cur != nil {
+		if cur.next.Val == val {
+			cur.next = cur.next.next
+		}
+		cur = cur.next
+	}
 	return head
 }
 
