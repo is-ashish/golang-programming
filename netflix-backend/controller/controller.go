@@ -2,9 +2,12 @@ package controller
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/is-ashish/mongo-api/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -36,6 +39,7 @@ func init() {
 }
 
 // MongoDB Helper ----- File
+
 // Insert 1 record
 
 func insertOneMovie(movie model.Netflix) {
@@ -98,4 +102,44 @@ func getAllMovies() []primitive.M {
 	}
 	defer cur.Close(context.Background())
 	return movies
+}
+
+// Actual Controller ------- File
+
+func GetAllMyMovies(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	allMovies := getAllMovies()
+	json.NewEncoder(w).Encode(allMovies)
+}
+
+func CreateOneMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow-Control-Allow-Methods", "POST")
+	var movie model.Netflix
+	_ = json.NewDecoder(r.Body).Decode(&movie)
+	insertOneMovie(movie)
+	json.NewEncoder(w).Encode(movie)
+}
+
+func MarkAsWatched(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow-Control-Allow-Methods", "PUT")
+	params := mux.Vars(r)
+	updateOneMoview(params["id"])
+	json.NewEncoder(w).Encode(params["id"])
+}
+
+func DeleteAMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow-Control-Allow-Methods", "DELETE")
+	params := mux.Vars(r)
+	deleteOneMovie(params["id"])
+	json.NewEncoder(w).Encode(params["id"])
+}
+
+func DeleteAllMovies(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow-Control-Allow-Methods", "DELETE")
+	count := deleteAllMovie()
+	json.NewEncoder(w).Encode(count)
 }
