@@ -29,5 +29,31 @@ class HelloWorld {
             tempArr[i] = arr[i]+arr[i+1];
             return helper(tempArr, arr, i+1);
     }
-  
+}
+
+// https://www.geeksforgeeks.org/recursive-programs-to-find-minimum-and-maximum-elements-of-array/
+
+// Input: arr = {1, 4, 3, -5, -4, 8, 6}; 
+// Output: min = -5, max = 8 
+// Input: arr = {1, 4, 45, 6, 10, -8}; 
+// Output: min = -8, max = 45
+import java.util.*;
+class HelloWorld {
+    public static void main(String[] args) {
+        int[] arr = new int[]{1, 4, 45, 6, 10, -8}; 
+        myMethod(arr, arr[0], arr[0], 0);
+    }
+    static void myMethod(int[] arr, int min, int max, int index) {
+        if(index == arr.length){
+            System.out.println("minimum "+ min+" maximun "+ max);
+            return;
+        }
+        if(arr[index]<min){
+            min = arr[index];
+        }
+        if(max<arr[index]){
+            max = arr[index];
+        }
+        myMethod(arr, min, max, index+1);
+    }
 }
