@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 )
 
 var println = fmt.Println
@@ -21,47 +20,31 @@ type Root struct {
 
 func main() {
 	var i int
-	println("Create Root node")
-	    _, err := fmt.Scanf("%d", &i)
-    if err != nil {
-        log.Fatal(err)
-    }
+	println("Enter Root node")
+	fmt.Scanf("%d\n", &i)
 	root := newNode(i)
-	println("======Display root node data", root.data)
 	populateTree(root)
-	println("======Display left node data", root.left)
-	println("======Display right node data", root.right)
-
+	displayTree(root)
 }
 
 func populateTree(node *Tnode) *Tnode{
-	var isYes bool
-	var i int
+	var isLeft, isRight bool
+	var i,j int
 	println("Do you want to insert Left node")
-	_, err := fmt.Scanf("%t", &isYes)
-	if err != nil { 
-		log.Fatal(err)
-	}
-	if isYes{
-	    _, err := fmt.Scanf("%d", &i)
-    	if err != nil {
-        	log.Fatal(err)
-    	}
+	fmt.Scanf("%t\n", &isLeft)
+
+	if isLeft{
+		println("Enter Left Node")
+	    fmt.Scanf("%d\n", &i)
 		node.left = newNode(i)
 		populateTree(node.left)
 	}
-
 	println("Do you want to insert Right node")
-	_, err1 := fmt.Scanf("%t", &isYes)
-	if err1 != nil {
-		log.Fatal(err1)
-	}
-	if isYes{
-	    _, err := fmt.Scanf("%d", &i)
-    	if err != nil {
-        	log.Fatal(err)
-    	}
-		node.right = newNode(i)
+	fmt.Scanf("%t\n", &isRight)
+	if isRight{
+		println("Enter Right Node")
+	    fmt.Scanf("%d\n", &j)
+		node.right = newNode(j)
 		populateTree(node.right)
 	}
 	return node
@@ -72,5 +55,17 @@ func newNode(data int) *Tnode {
 	node.left = nil
 	node.right = nil
 	node.height = 1
+	return node
+}
+
+func displayTree(node *Tnode){
+	println("node data -->", node.data)
+
+	if node.left != nil {
+		displayTree(node.left)
+	}
+	if node.right != nil {
+		displayTree(node.right)
+	}
 	return node
 }

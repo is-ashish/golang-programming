@@ -135,8 +135,8 @@ func (l *LinkedList) reverseList(list1 *Node) *Node {
 }
 
 
-// reverse linkedlist using recursion-:
-func (l *LinkedList) reverseListRecursion(head *Node, cur_node *Node, prev_node *Node) *Node {
+// reverse linkedlist using recursion-: method-1
+func (l *LinkedList) reverseListRecursion1(head *Node, cur_node *Node, prev_node *Node) *Node {
 	var forward *Node
 	if cur_node == nil {
 		head = prev_node
@@ -146,3 +146,17 @@ func (l *LinkedList) reverseListRecursion(head *Node, cur_node *Node, prev_node 
 	cur_node.next = prev_node
 	return l.reverseListRecursion(head, forward, cur_node)
 }
+
+// reverse linkedlist using recursion-: method-2 
+
+func (l *LinkedList) reverseListRecursion2(head *Node) *Node {
+
+	if head == nil || head.next == nil{
+		return head
+	}
+	var small_head *Node = reverseListRecursion2(head.next)
+	head.next.next = head
+	head.next = nil
+	return small_head
+}
+
